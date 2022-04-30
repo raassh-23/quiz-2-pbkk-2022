@@ -84,6 +84,18 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>3.0.4</version>
+				<configuration>
+					<appName>quiz-2-pbkk-2022</appName>
+					<jdkVersion>${java.version}</jdkVersion>
+					<processTypes>
+						<web>java -jar target/${project.build.finalName}.jar --server.port=$PORT</web>
+					</processTypes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
