@@ -5,7 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-    <p th:text="'Hello, ' + ${name} + '!'"/>
-    <a th:text="publishers" th:href="@{~/publishers}">
+<div th:if="${error != null}">
+    <p th:text="${error}" />
+</div>
+
+<tr th:each="pub: ${publishers}">
+    <td th:text="${pub.id}"/>
+    <td th:text="${pub.name}"/>
+</tr>
 </body>
 </html>
