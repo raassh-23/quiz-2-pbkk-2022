@@ -1,0 +1,49 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: headFragment">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbarFragment"></div>
+
+<main class="py-4">
+    <div class="container">
+        <h1>Publishers</h1>
+
+        <div th:if="${error != null}">
+            <p th:text="${'Error: ' + error}" />
+        </div>
+
+        <div th:if="${error == null}" class="d-flex">
+            <div class="col-md-10">
+                <div th:if="${!publishers.isEmpty()}" class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+                    <div th:each="pub: ${publishers}" class="col position-relative">
+                        <div class="card h-100">
+                            <img class="card-image-top" th:src="${pub.image_url}"
+                                 th:alt="${pub.name}" style="width:100%">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <a class="card-title fw-bold fs-5 stretched-link text-black text-decoration-none m-0"
+                                  th:href="@{~/publishers/{id}(id=${pub.id})}" th:text="${#strings.abbreviate(pub.name, 30)}"></a>
+                                <p class="m-0" th:text="${pub.books.size() + ' books published'}"> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 th:if="${publishers.isEmpty()}" class="text-center">No publishers found.</h3>
+            </div>
+            <div class="col-md-2 ms-3">
+                <h2>Search</h2>
+                <form method="GET" th:action="@{~/publishers}">
+                    <div class="d-flex flex-row">
+                        <input type="text" class="form-control" placeholder="Search publishers..." name="search" th:value="${param.search}">
+                        <button type="submit" class="btn btn-primary ms-1"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+</body>
+</html>

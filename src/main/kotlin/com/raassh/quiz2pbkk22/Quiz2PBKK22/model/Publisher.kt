@@ -7,15 +7,18 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "publishers")
-data class Publisher (
+data class Publisher(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long = 0L,
-    @Column val name: String = "",
-    @Column val address: String = "",
-    @Column val email: String = "",
-    @Column val phone: String = "",
-    @Column val image_url: String = "",
-    @Column val created_at: LocalDateTime = LocalDateTime.now(),
-    @Column val updated_at: LocalDateTime = LocalDateTime.now()
+    val name: String = "",
+    val address: String = "",
+    val email: String = "",
+    val phone: String = "",
+    val image_url: String = "",
+    val created_at: LocalDateTime = LocalDateTime.now(),
+    val updated_at: LocalDateTime = LocalDateTime.now(),
+
+    @OneToMany(mappedBy = "publisher")
+    val books: List<Book>? = null
 )
