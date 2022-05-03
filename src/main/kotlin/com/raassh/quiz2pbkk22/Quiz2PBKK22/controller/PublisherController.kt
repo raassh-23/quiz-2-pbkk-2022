@@ -1,20 +1,23 @@
 package com.raassh.quiz2pbkk22.Quiz2PBKK22.controller
 
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.PublisherRepository
+import com.raassh.quiz2pbkk22.Quiz2PBKK22.utils.Views
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import java.lang.Exception
 
 @Controller
+@RequestMapping("/publishers")
 class PublisherController {
-    @Autowired()
-    lateinit var publisherRepository: PublisherRepository
+    @Autowired
+    private lateinit var publisherRepository: PublisherRepository
 
-    @GetMapping("/publishers")
+    @GetMapping("")
     fun getAll(
         @RequestParam(name = "search", required = false, defaultValue = "") search: String,
         model: Model
@@ -31,10 +34,10 @@ class PublisherController {
             model.addAttribute("error", e.message)
         }
 
-        return "publishers/index"
+        return Views.PUBLISHER_INDEX
     }
 
-    @GetMapping("/publishers/{id}")
+    @GetMapping("/{id}")
     fun findPublisher(
         @PathVariable id: Long,
         model: Model
@@ -52,6 +55,6 @@ class PublisherController {
             model.addAttribute("error", e.message)
         }
 
-        return "publishers/detail"
+        return Views.PUBLISHER_DETAIL
     }
 }

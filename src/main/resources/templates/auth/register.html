@@ -1,0 +1,107 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: headFragment">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbarFragment"></div>
+
+<main class="py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Register</div>
+
+                    <div class="card-body">
+                        <form method="POST" th:action="@{/register}" th:object="${registerForm}">
+                            <div class="row mb-3">
+                                <label th:for="*{name}" class="col-md-4 col-form-label text-md-end">Name</label>
+
+                                <div class="col-md-6">
+                                    <input type="text"
+                                           class="form-control"
+                                           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                                           th:field="*{name}" required autocomplete="name"
+                                           autofocus>
+
+                                    <span th:if="${#fields.hasErrors('name')}" class="invalid-feedback" role="alert">
+                                        <strong th:each="error: ${#fields.errors('name')}" th:text="${error}"></strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label th:for="*{email}" class="col-md-4 col-form-label text-md-end">Email</label>
+
+                                <div class="col-md-6">
+                                    <input th:field="*{email}" type="email"
+                                           class="form-control"
+                                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" required
+                                           autocomplete="email">
+
+                                    <span th:if="${#fields.hasErrors('email')}" class="invalid-feedback" role="alert">
+                                        <strong th:each="error: ${#fields.errors('email')}" th:text="${error}"></strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label th:for="*{password}" class="col-md-4 col-form-label text-md-end">Password</label>
+
+                                <div class="col-md-6">
+                                    <input th:field="*{password}" type="password"
+                                           class="form-control"
+                                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                                           required autocomplete="new-password">
+
+                                    <span th:if="${#fields.hasErrors('password')}" class="invalid-feedback"
+                                          role="alert">
+                                        <strong th:each="error: ${#fields.errors('password')}"
+                                                th:text="${error}"></strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label th:for="*{password_confirmation}" class="col-md-4 col-form-label text-md-end">Confirm
+                                    Password</label>
+
+                                <div class="col-md-6">
+                                    <input type="password" class="form-control"
+                                           th:classappend="${#fields.hasErrors('password_confirmation')} ? 'is-invalid' : ''"
+                                           th:field="*{password_confirmation}" required autocomplete="new-password">
+
+                                    <span th:if="${#fields.hasErrors('password_confirmation')}" class="invalid-feedback"
+                                          role="alert">
+                                        <strong th:each="error: ${#fields.errors('password_confirmation')}"
+                                                th:text="${error}"></strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="avatar" class="col-md-4 col-form-label text-md-end">Avatar</label>
+
+                                <div class="col-md-6">
+                                    <input id="avatar" type="file" class="form-control-file" name="avatar">
+                                </div>
+                            </div>
+
+                            <div class="row mb-0">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Register
+                                    </button>
+                                    <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="text-danger mt-2 mb-0"></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

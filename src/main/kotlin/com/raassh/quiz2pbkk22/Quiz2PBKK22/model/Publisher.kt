@@ -9,7 +9,7 @@ import javax.persistence.*
 @Table(name = "publishers")
 data class Publisher(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
     val name: String = "",
     val address: String = "",

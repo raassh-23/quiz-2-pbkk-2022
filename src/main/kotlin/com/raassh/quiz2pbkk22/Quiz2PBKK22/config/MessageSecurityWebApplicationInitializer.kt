@@ -1,0 +1,5 @@
+package com.raassh.quiz2pbkk22.Quiz2PBKK22.config
+
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer
+
+class MessageSecurityWebApplicationInitializer : AbstractSecurityWebApplicationInitializer()
