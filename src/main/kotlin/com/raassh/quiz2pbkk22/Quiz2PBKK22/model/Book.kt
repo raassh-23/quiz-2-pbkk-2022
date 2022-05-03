@@ -19,6 +19,10 @@ data class Book(
     val updated_at: LocalDateTime = LocalDateTime.now(),
 
     @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name="publisher_id")
-    val publisher: Publisher? = null
+    @JoinColumn(name = "publisher_id")
+    val publisher: Publisher? = null,
+
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "category_id")
+    val category: Category? = null
 )
