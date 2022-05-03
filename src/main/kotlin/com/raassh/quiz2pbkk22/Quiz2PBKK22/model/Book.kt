@@ -20,5 +20,15 @@ data class Book(
 
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name="publisher_id")
-    val publisher: Publisher? = null
+    val publisher: Publisher? = null,
+
+    @ManyToMany(mappedBy = "books")
+    val writers: List<Writer>? = null,
+
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name="category_id")
+    val category: Category? = null,
+
+    @OneToMany(mappedBy = "book")
+    val reviews: List<Review>? = null
 )
