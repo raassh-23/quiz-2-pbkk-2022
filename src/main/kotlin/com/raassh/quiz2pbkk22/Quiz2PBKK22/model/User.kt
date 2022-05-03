@@ -17,6 +17,6 @@ class User (
     val created_at: LocalDateTime = LocalDateTime.now(),
     val updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "user")
     val reviews: List<Review>? = null
 )

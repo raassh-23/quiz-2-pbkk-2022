@@ -26,6 +26,6 @@ data class Book(
     @JoinColumn(name = "category_id")
     val category: Category? = null,
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "book")
     val reviews: List<Review>? = null
 )
