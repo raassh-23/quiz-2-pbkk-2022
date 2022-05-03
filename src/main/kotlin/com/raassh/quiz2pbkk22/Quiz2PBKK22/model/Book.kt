@@ -24,5 +24,8 @@ data class Book(
 
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "category_id")
-    val category: Category? = null
+    val category: Category? = null,
+
+    @OneToMany(mappedBy = "review")
+    val reviews: List<Review>? = null
 )
