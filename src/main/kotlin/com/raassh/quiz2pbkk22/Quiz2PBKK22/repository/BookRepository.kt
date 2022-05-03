@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.query.Param
 
 interface BookRepository : JpaRepository<Book, Long> {
-    fun findByNameContainingIgnoreCase(@Param("name") name: String): List<Book>
+    fun findByTitleContainingIgnoreCase(@Param("title") title: String): List<Book>
 }
