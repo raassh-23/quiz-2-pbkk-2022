@@ -8,7 +8,9 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer
+import javax.servlet.MultipartConfigElement
+import javax.servlet.ServletRegistration
 
 @SpringBootApplication
 class Quiz2Pbkk22Application
