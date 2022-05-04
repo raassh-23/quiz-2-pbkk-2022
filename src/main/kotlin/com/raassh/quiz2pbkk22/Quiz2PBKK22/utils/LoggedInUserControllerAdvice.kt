@@ -17,6 +17,11 @@ class LoggedInUserControllerAdvice  {
     @ModelAttribute
     fun handleRequest(model: Model) {
         val principal = SecurityContextHolder.getContext().authentication.principal ?: return
+
+        if (principal !is User) {
+            return
+        }
+
         val user = userRepository.findByEmail((principal as User).username) ?: return
 
         model.addAttribute("displayName", user.name)

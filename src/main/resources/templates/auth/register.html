@@ -13,7 +13,8 @@
                     <div class="card-header">Register</div>
 
                     <div class="card-body">
-                        <form method="POST" th:action="@{/register}" th:object="${registerForm}">
+                        <form method="POST" th:action="@{/register}" th:object="${registerForm}"
+                              enctype="multipart/form-data">
                             <div class="row mb-3">
                                 <label th:for="*{name}" class="col-md-4 col-form-label text-md-end">Name</label>
 
@@ -80,10 +81,19 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="avatar" class="col-md-4 col-form-label text-md-end">Avatar</label>
+                                <label th:for="*{avatar}" class="col-md-4 col-form-label text-md-end">Avatar</label>
 
                                 <div class="col-md-6">
-                                    <input id="avatar" type="file" class="form-control-file" name="avatar">
+                                    <input type="file" class="form-control-file" th:fields="*{avatar}" name="avatar"
+                                           accept="image/*" th:classappend="${#fields.hasErrors('avatar')} ? 'is-invalid' : ''">
+
+                                    <span th:if="${#fields.hasErrors('avatar')}" class="invalid-feedback"
+                                          role="alert">
+                                        <strong th:each="error: ${#fields.errors('avatar')}"
+                                                th:text="${error}">
+
+                                        </strong>
+                                    </span>
                                 </div>
                             </div>
 
@@ -92,7 +102,8 @@
                                     <button type="submit" class="btn btn-primary">
                                         Register
                                     </button>
-                                    <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="text-danger mt-2 mb-0"></p>
+                                    <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}"
+                                       class="text-danger mt-2 mb-0"></p>
                                 </div>
                             </div>
                         </form>
