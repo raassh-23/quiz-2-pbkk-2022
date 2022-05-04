@@ -6,6 +6,8 @@ import com.raassh.quiz2pbkk22.Quiz2PBKK22.service.`interface`.IUserService
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.utils.Views
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -27,6 +29,9 @@ class AuthController {
 
     @Autowired
     private lateinit var s3Service: S3Service
+
+    @Autowired
+    private lateinit var authenticationManager: AuthenticationManager
 
     @GetMapping("/login")
     fun loginPage() = Views.LOGIN
@@ -66,11 +71,21 @@ class AuthController {
 
         try {
             userService.registerNewUserAccount(registerForm, url)
+            autoLogin(registerForm.email!!, registerForm.password)
         } catch (e: Exception) {
             bindingResult.reject("Exception", e.message ?: "Something went wrong")
             return Views.REGISTER
         }
 
         return "redirect:publishers"
+    }
+
+    fun autoLogin(username: String, password: String) {
+        val authToken = UsernamePasswordAuthenticationToken(username, password)
+        val auth = authenticationManager.authenticate(authToken)
+
+        if (auth.isAuthenticated) {
+            SecurityContextHolder.getContext().authentication = auth
+        }
     }
 }
