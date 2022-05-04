@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "books")
-data class Book(
+class Book(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
@@ -18,17 +18,51 @@ data class Book(
     val created_at: LocalDateTime = LocalDateTime.now(),
     val updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name="publisher_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "publisher_id")
     val publisher: Publisher? = null,
 
-    @ManyToMany(mappedBy = "books")
-    val writers: List<Writer>? = null,
+    @ManyToMany(cascade = [CascadeType.ALL])
+    @JoinTable(
+        name = "book_writer",
+        joinColumns = [JoinColumn(name = "book_id", foreignKey = ForeignKey(name = "book_writer_book_id_foreign"))],
+        inverseJoinColumns = [JoinColumn(
+            name = "writer_id",
+            foreignKey = ForeignKey(name = "book_writer_writer_id_foreign")
+        )]
+    )
+    val writers: MutableList<Writer> = mutableListOf(),
 
-    @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name="category_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "category_id")
     val category: Category? = null,
 
     @OneToMany(mappedBy = "book")
     val reviews: List<Review>? = null
-)
+) {
+    fun rating(): Float? {
+        if (reviews == null || reviews.isEmpty()) {
+            return null
+        }
+
+        var sum = 0f
+
+        reviews.forEach {
+            sum += it.rating
+        }
+
+        return sum / reviews.size
+    }
+
+    fun formattedRating(decimalPlaces: Int = 2) = String.format("%.${decimalPlaces}f", rating())
+
+    fun writersName() = StringBuilder().apply {
+        writers.forEachIndexed { i, writer ->
+            append(writer.name)
+
+            if (i < writers.size - 1) {
+                append(", ")
+            }
+        }
+    }.toString()
+}

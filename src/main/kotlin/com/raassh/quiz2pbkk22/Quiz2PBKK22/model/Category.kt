@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "categories")
-data class Category(
+class Category(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,

@@ -4,8 +4,8 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name="review")
-data class Review(
+@Table(name="reviews")
+class Review(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
@@ -14,11 +14,11 @@ data class Review(
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name="book_id")
     val book: Book? = null,
 
-    @ManyToOne(cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name="user_id")
     val user: User? = null
 )
