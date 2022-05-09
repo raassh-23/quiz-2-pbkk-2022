@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 
@@ -34,5 +35,26 @@ class WriterController {
         }
 
         return Views.WRITER_INDEX
+    }
+
+    @GetMapping("/{id}")
+    fun findPublisher(
+        @PathVariable id: Long,
+        model: Model
+    ): String {
+        try {
+            writerRepository.findById(id).ifPresentOrElse({
+                val writer = it
+                model.addAttribute("writer", writer)
+            }) {
+                model.addAttribute("error", "Writer Not Found")
+            }
+
+
+        } catch (e: java.lang.Exception) {
+            model.addAttribute("error", e.message)
+        }
+
+        return Views.WRITER_DETAIL
     }
 }
