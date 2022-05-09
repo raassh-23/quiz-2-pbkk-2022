@@ -41,7 +41,7 @@ class CategoryController {
     }
 
     @PostMapping("/store")
-    fun processRegister(
+    fun store(
         @ModelAttribute @Valid categoryForm: CategoryForm, bindingResult: BindingResult
     ): String {
         if (bindingResult.hasErrors()) {
@@ -90,18 +90,21 @@ class CategoryController {
                 return "redirect:/admin/categories?error=Show edit form failed, id was not found"
             }
 
-            model.addAttribute("categoryForm", CategoryForm())
-            model.addAttribute("category", categoryOptional.get())
+            val category = categoryOptional.get()
+
+            model.addAttribute("categoryForm", CategoryForm(
+                name = category.name
+            ))
+            model.addAttribute("categoryId", category.id)
         } catch (e: Exception) {
             return "redirect:/admin/categories?error=Show edit form failed"
         }
-
 
         return Views.ADMIN_CATEGORIES_EDIT
     }
 
     @PostMapping("/update/{id}")
-    fun processRegister(
+    fun update(
         @PathVariable id: Long, @ModelAttribute @Valid categoryForm: CategoryForm, bindingResult: BindingResult
     ): String {
         if (bindingResult.hasErrors()) {

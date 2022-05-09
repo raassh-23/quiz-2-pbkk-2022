@@ -9,18 +9,18 @@ class Book(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-    val title: String = "",
-    val synopsis: String = "",
-    val edition: Int = 0,
-    val publish_year: Int = 0,
-    val cover_image: String = "",
-    val isbn: String = "",
+    var title: String = "",
+    var synopsis: String = "",
+    var edition: Int = 0,
+    var publish_year: Int = 0,
+    var cover_image: String = "",
+    var isbn: String = "",
     val created_at: LocalDateTime = LocalDateTime.now(),
-    val updated_at: LocalDateTime = LocalDateTime.now(),
+    var updated_at: LocalDateTime = LocalDateTime.now(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "publisher_id")
-    val publisher: Publisher? = null,
+    var publisher: Publisher? = null,
 
     @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(
@@ -31,11 +31,11 @@ class Book(
             foreignKey = ForeignKey(name = "book_writer_writer_id_foreign")
         )]
     )
-    val writers: MutableList<Writer> = mutableListOf(),
+    var writers: MutableList<Writer> = mutableListOf(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "category_id")
-    val category: Category? = null,
+    var category: Category? = null,
 
     @OneToMany(mappedBy = "book")
     val reviews: List<Review>? = null

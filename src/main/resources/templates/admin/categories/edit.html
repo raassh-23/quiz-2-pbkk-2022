@@ -11,7 +11,7 @@
 
         <div th:if="${param.keySet().contains('error')}" th:text="${param.error}" class="alert alert-danger"/>
 
-        <form class="row gy-3 p-3 border rounded-3 border-2 bg-white mt-3" th:action="@{~/admin/categories/update/{id}(id=${category.id})}"
+        <form class="row gy-3 p-3 border rounded-3 border-2 bg-white mt-3" th:action="@{~/admin/categories/update/{id}(id=${categoryId})}"
               th:object="${categoryForm}" method="POST">
             <div class="col form-group m-0">
                 <label class="form-label" th:for="*{name}">Name</label>
@@ -19,9 +19,7 @@
                 <input type="text"
                        class="form-control"
                        th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
-                       th:id="name"
-                       th:name="name"
-                       th:value="${category.name}"
+                        th:field="*{name}"
                        required>
 
                 <span th:if="${#fields.hasErrors('name')}" class="invalid-feedback" role="alert">
