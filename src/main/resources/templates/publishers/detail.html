@@ -24,8 +24,7 @@
                 </div>
             </div>
 
-            <h2 class="mt-5">Books <span th:text="${publisher.books != null} ? ${publisher.books.size()} : '0'"></span>
-            </h2>
+            <h2 class="mt-5">Books <span th:text="${publisher.books != null} ? ${publisher.books.size()} : '0'"></span></h2>
             <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-3 row-cols-lg-5 g-3">
                 <div th:if="${publisher.books != null}" th:each="book: ${publisher.books}"
                      class="col position-relative">
