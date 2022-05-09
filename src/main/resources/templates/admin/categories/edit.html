@@ -1,0 +1,39 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: headFragment">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbarFragment"></div>
+
+<main class="py-4">
+    <div class="container">
+        <h1>Edit Category</h1>
+
+        <div th:if="${param.keySet().contains('error')}" th:text="${param.error}" class="alert alert-danger"/>
+
+        <form class="row gy-3 p-3 border rounded-3 border-2 bg-white mt-3" th:action="@{~/admin/categories/update/{id}(id=${category.id})}"
+              th:object="${categoryForm}" method="POST">
+            <div class="col form-group m-0">
+                <label class="form-label" th:for="*{name}">Name</label>
+
+                <input type="text"
+                       class="form-control"
+                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                       th:id="name"
+                       th:name="name"
+                       th:value="${category.name}"
+                       required>
+
+                <span th:if="${#fields.hasErrors('name')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('name')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="form-button btn btn-primary">Edit category</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

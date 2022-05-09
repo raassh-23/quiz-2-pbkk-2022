@@ -49,8 +49,6 @@ class PublisherController {
             }) {
                 model.addAttribute("error", "Publisher Not Found")
             }
-
-
         } catch (e: Exception) {
             model.addAttribute("error", e.message)
         }

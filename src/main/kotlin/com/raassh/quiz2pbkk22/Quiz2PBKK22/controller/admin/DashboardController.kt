@@ -12,22 +12,22 @@ import java.lang.Exception
 @Controller
 class DashboardController {
     @Autowired
-    lateinit var bookRepository: BookRepository
+    private lateinit var bookRepository: BookRepository
 
     @Autowired
-    lateinit var categoryRepository: CategoryRepository
+    private lateinit var categoryRepository: CategoryRepository
 
     @Autowired
-    lateinit var publisherRepository: PublisherRepository
+    private lateinit var publisherRepository: PublisherRepository
 
     @Autowired
-    lateinit var reviewRepository: ReviewRepository
+    private lateinit var reviewRepository: ReviewRepository
 
     @Autowired
-    lateinit var writerRepository: WriterRepository
+    private lateinit var writerRepository: WriterRepository
 
     @Autowired
-    lateinit var userRepository: UserRepository
+    private lateinit var userRepository: UserRepository
 
     @GetMapping("/admin")
     fun welcomePage(model: Model): String {
