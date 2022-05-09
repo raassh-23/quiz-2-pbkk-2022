@@ -8,4 +8,5 @@ object Views {
 
     const val PUBLISHER_INDEX = "publishers/index"
     const val PUBLISHER_DETAIL = "publishers/detail"
+    const val WRITER_INDEX = "writers/index"
 }
