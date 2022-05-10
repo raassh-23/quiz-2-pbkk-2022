@@ -38,7 +38,7 @@ class WriterController {
     }
 
     @GetMapping("/{id}")
-    fun findPublisher(
+    fun findWriter(
         @PathVariable id: Long,
         model: Model
     ): String {
