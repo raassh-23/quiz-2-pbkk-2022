@@ -29,7 +29,7 @@ class Book(
     @JoinColumn(name = "category_id")
     var category: Category? = null,
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val reviews: List<Review>? = null
 ) {
     fun rating(): Float? {

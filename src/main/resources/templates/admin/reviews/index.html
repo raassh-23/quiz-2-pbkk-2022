@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: headFragment">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbarFragment"></div>
+
+<main class="py-4">
+    <div class="container">
+        <h1>Manage Review</h1>
+
+        <div th:if="${error != null}">
+            <p th:text="${'Error: ' + error}"/>
+        </div>
+
+        <div th:if="${param.keySet().contains('success')}" th:text="${param.success}" class="alert alert-success"/>
+
+        <div th:if="${param.keySet().contains('error')}" th:text="${param.error}" class="alert alert-danger"/>
+
+        <table class="table">
+            <thead>
+            <th>No</th>
+            <th>User</th>
+            <th>Book</th>
+            <th>Rating</th>
+            <th>Review</th>
+            <th>Action</th>
+            </thead>
+            <tbody>
+            <tr th:each="rev: ${reviews}">
+                <td th:text="${revStat.count}"></td>
+                <td th:text="${rev.user.name}">{{ $review->user->name }}</td>
+                <td th:text="${rev.book.title}">{{ $review->book->title }}</td>
+                <td th:text="${rev.rating}">{{ $review->rating }}</td>
+                <td th:text="${rev.review}">{{ $review->review }}</td>
+                <td>
+                    <a href="#" class="btn btn-danger"
+                       th:onclick="'submitForm(event, &quot;delete-form-' + ${rev.id} + '&quot;)'">Delete</a>
+                    <form th:action="@{~/admin/reviews/delete/{id}(id=${rev.id})}"
+                          th:id="${'delete-form-'+rev.id}" class="d-none" method="POST">
+                    </form>
+                </td>
+            <tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script>
+    function submitForm(event, formId) {
+        event.preventDefault();
+
+        if (confirm('Are you sure?'))
+            document.getElementById(formId).submit();
+    }
+</script>
+</body>
+</html>

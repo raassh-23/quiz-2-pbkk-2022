@@ -17,6 +17,6 @@ class User (
     val created_at: LocalDateTime = LocalDateTime.now(),
     val updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val reviews: List<Review>? = null
 )

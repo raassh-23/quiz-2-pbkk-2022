@@ -9,16 +9,16 @@ class Review(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-    val rating: Int = 0,
-    val review: String = "",
+    var rating: Int = 0,
+    var review: String = "",
     val createdAt: LocalDateTime = LocalDateTime.now(),
-    val updatedAt: LocalDateTime = LocalDateTime.now(),
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne
     @JoinColumn(name="book_id")
     val book: Book? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne
     @JoinColumn(name="user_id")
     val user: User? = null
 )

@@ -35,4 +35,6 @@ object Views {
     const val ADMIN_WRITERS_INDEX = "admin/writers/index"
     const val ADMIN_WRITERS_CREATE = "admin/writers/create"
     const val ADMIN_WRITERS_EDIT = "admin/writers/edit"
+
+    const val ADMIN_REVIEWS_INDEX = "admin/reviews/index"
 }
