@@ -57,7 +57,7 @@ class AdminPublisherController {
         }
 
         if (publisherForm.image?.isEmpty == true || publisherForm.image?.contentType?.startsWith("image/") == false) {
-            bindingResult.rejectValue("image", "cover_image.wrong.type", "Must be image")
+            bindingResult.rejectValue("image", "image.wrong.type", "Must be image")
             return Views.ADMIN_PUBLISHERS_CREATE
         }
 
@@ -135,7 +135,7 @@ class AdminPublisherController {
             val publisherOptional = publisherRepository.findById(id)
 
             if (publisherOptional.isEmpty) {
-                return "redirect:/admin/books?error=Show edit form failed, id was not found"
+                return "redirect:/admin/publishers?error=Show edit form failed, id was not found"
             }
 
             val publisher = publisherOptional.get()
@@ -146,7 +146,7 @@ class AdminPublisherController {
             }
 
             if (publisherForm.image?.isEmpty == false && publisherForm.image.contentType?.startsWith("image/") == false) {
-                bindingResult.rejectValue("image", "cover_image.wrong.type", "Must be image")
+                bindingResult.rejectValue("image", "image.wrong.type", "Must be image")
                 addPublisherAttribute(publisher, model)
                 return Views.ADMIN_PUBLISHERS_EDIT
             }
