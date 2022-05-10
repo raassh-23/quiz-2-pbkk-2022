@@ -12,6 +12,9 @@ object Views {
     const val WRITER_INDEX = "writers/index"
     const val WRITER_DETAIL = "writers/detail"
 
+    const val USER_INDEX = "users/index"
+    const val USER_DETAIL = "users/detail"
+
     const val ADMIN_DASHBOARD = "admin/index"
 
     const val ADMIN_CATEGORIES_INDEX = "admin/categories/index"
