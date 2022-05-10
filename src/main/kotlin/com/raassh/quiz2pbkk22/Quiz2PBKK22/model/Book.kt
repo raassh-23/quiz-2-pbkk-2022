@@ -22,15 +22,7 @@ class Book(
     @JoinColumn(name = "publisher_id")
     var publisher: Publisher? = null,
 
-    @ManyToMany(cascade = [CascadeType.ALL])
-    @JoinTable(
-        name = "book_writer",
-        joinColumns = [JoinColumn(name = "book_id", foreignKey = ForeignKey(name = "book_writer_book_id_foreign"))],
-        inverseJoinColumns = [JoinColumn(
-            name = "writer_id",
-            foreignKey = ForeignKey(name = "book_writer_writer_id_foreign")
-        )]
-    )
+    @ManyToMany(mappedBy = "books")
     var writers: MutableList<Writer> = mutableListOf(),
 
     @ManyToOne
