@@ -11,14 +11,14 @@ class Publisher(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-    val name: String = "",
-    val address: String = "",
-    val email: String = "",
-    val phone: String = "",
-    val image_url: String = "",
+    var name: String = "",
+    var address: String = "",
+    var email: String = "",
+    var phone: String = "",
+    var image_url: String = "",
     val created_at: LocalDateTime = LocalDateTime.now(),
-    val updated_at: LocalDateTime = LocalDateTime.now(),
+    var updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @OneToMany(mappedBy = "publisher")
+    @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val books: List<Book>? = null
 )

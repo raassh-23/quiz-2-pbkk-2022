@@ -35,6 +35,7 @@
                                     <button type="submit" class="btn btn-primary">
                                         Login
                                     </button>
+                                    <p th:if="${param.keySet().contains('error')}" class="text-danger mt-2 mb-0">Login failed, please check your credentials</p>
                                 </div>
                             </div>
                         </form>

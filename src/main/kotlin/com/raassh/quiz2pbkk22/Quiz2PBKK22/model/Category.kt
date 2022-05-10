@@ -9,10 +9,10 @@ class Category(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-    val name: String = "",
+    var name: String = "",
     val created_at: LocalDateTime = LocalDateTime.now(),
-    val updated_at: LocalDateTime = LocalDateTime.now(),
+    var updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val books: List<Book>? = null
 )

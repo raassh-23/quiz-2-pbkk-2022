@@ -1,0 +1,70 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: headFragment">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbarFragment"></div>
+
+<main class="py-4">
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <h1>Manage Book</h1>
+            <div>
+                <a th:href="@{~/admin/books/create}" class="btn btn-primary">Add Book</a>
+            </div>
+        </div>
+
+        <div th:if="${error != null}">
+            <p th:text="${'Error: ' + error}"/>
+        </div>
+
+        <div th:if="${param.keySet().contains('success')}" th:text="${param.success}" class="alert alert-success"/>
+
+        <div th:if="${param.keySet().contains('error')}" th:text="${param.error}" class="alert alert-danger"/>
+
+        <table class="table" th:if="${error == null}">
+            <thead>
+            <th>No</th>
+            <th>ISBN</th>
+            <th width='20%'>Title</th>
+            <th>Category</th>
+            <th width='15%'>Writer</th>
+            <th>Publisher</th>
+            <th>Review Count</th>
+            <th>Average Rating</th>
+            <th>Actions</th>
+            </thead>
+            <tbody>
+            <tr th:each="book, iStat: ${books}">
+                <td th:text="${iStat.count}"></td>
+                <td th:text="${book.isbn}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.category.name}"></td>
+                <td th:text="${book.writersName()}"></td>
+                <td th:text="${book.publisher.name}"></td>
+                <td style="text-align: center" th:text="${book.reviews.size()}"></td>
+                <td style="text-align: center" th:text="${book.reviews.isEmpty() ? 0 : book.formattedRating(2)}"></td>
+                <td>
+                    <a th:href="@{~/books/{id}(id=${book.id})}" class="btn btn-primary">Details</a>
+                    <a th:href="@{~/admin/books/edit/{id}(id=${book.id})}" class="btn btn-warning">Edit</a>
+                    <a href="#" class="btn btn-danger"
+                       th:onclick="'submitForm(event, &quot;delete-form-' + ${book.id} + '&quot;)'">Delete</a>
+                    <form th:action="@{~/admin/books/delete/{id}(id=${book.id})}"
+                          th:id="${'delete-form-'+book.id}" class="d-none" method="POST">
+                    </form>
+                </td>
+            <tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<script>
+    function submitForm(event, formId) {
+        event.preventDefault();
+
+        if (confirm('Are you sure?'))
+            document.getElementById(formId).submit();
+    }
+</script>
+</body>
+</html>

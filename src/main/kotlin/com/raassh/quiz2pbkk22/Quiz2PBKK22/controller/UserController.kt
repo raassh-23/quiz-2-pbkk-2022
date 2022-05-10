@@ -1,6 +1,6 @@
 package com.raassh.quiz2pbkk22.Quiz2PBKK22.controller
 
-import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.PublisherRepository
+import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.UserRepository
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.utils.Views
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam
 import java.lang.Exception
 
 @Controller
-@RequestMapping("/publishers")
-class PublisherController {
+@RequestMapping("/users")
+class UserController {
     @Autowired
-    private lateinit var publisherRepository: PublisherRepository
+    private lateinit var userRepository: UserRepository
 
     @GetMapping("")
     fun getAll(
@@ -23,36 +23,38 @@ class PublisherController {
         model: Model
     ): String {
         try {
-            val publishers = if (search.isEmpty()) {
-                publisherRepository.findAll()
+            val users = if (search.isEmpty()) {
+                userRepository.findAll()
             } else {
-                publisherRepository.findByNameContainingIgnoreCase(search)
+                userRepository.findByNameContainingIgnoreCase(search)
             }
 
-            model.addAttribute("publishers", publishers)
+            model.addAttribute("users", users)
         } catch (e: Exception) {
             model.addAttribute("error", e.message)
         }
 
-        return Views.PUBLISHER_INDEX
+        return Views.USER_INDEX
     }
 
     @GetMapping("/{id}")
-    fun findPublisher(
+    fun findUser(
         @PathVariable id: Long,
         model: Model
     ): String {
         try {
-            publisherRepository.findById(id).ifPresentOrElse({
-                val publisher = it
-                model.addAttribute("publisher", publisher)
+            userRepository.findById(id).ifPresentOrElse({
+                val user = it
+                model.addAttribute("user", user)
             }) {
-                model.addAttribute("error", "Publisher Not Found")
+                model.addAttribute("error", "User Not Found")
             }
+
+
         } catch (e: Exception) {
             model.addAttribute("error", e.message)
         }
 
-        return Views.PUBLISHER_DETAIL
+        return Views.USER_DETAIL
     }
 }

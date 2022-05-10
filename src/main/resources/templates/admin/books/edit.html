@@ -1,0 +1,121 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: headFragment">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbarFragment"></div>
+
+<main class="py-4">
+    <div class="container">
+        <h1>Edit Book</h1>
+
+        <div th:if="${param.keySet().contains('error')}" th:text="${param.error}" class="alert alert-danger"/>
+
+        <form class="row gy-3 p-3 border rounded-3 border-2 bg-white mt-3" th:action="@{~/admin/books/update/{id}(id=${bookId})}"
+              method="POST"
+              th:object="${bookForm}" enctype="multipart/form-data">
+            <div class="col-12 form-group">
+                <label class="form-label" th:for="*{title}">Title</label>
+                <input type="text" class="form-control" th:field="*{title}"
+                       th:classappend="${#fields.hasErrors('title')} ? 'is-invalid' : ''" required>
+
+                <span th:if="${#fields.hasErrors('title')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('title')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="col-12 form-group">
+                <label class="form-label" th:for="*{synopsis}">Synopsis</label>
+                <textarea class="form-control" rows="3" th:field="*{synopsis}"
+                          th:classappend="${#fields.hasErrors('synopsis')} ? 'is-invalid' : ''" required></textarea>
+
+                <span th:if="${#fields.hasErrors('synopsis')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('synopsis')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="col-3 form-group">
+                <label class="form-label" th:for="*{edition}">Edition</label>
+                <input type="number" class="form-control" th:field="*{edition}"
+                       th:classappend="${#fields.hasErrors('edition')} ? 'is-invalid' : ''" required>
+
+                <span th:if="${#fields.hasErrors('edition')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('edition')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="col-3 form-group">
+                <label class="form-label" th:for="*{publish_year}">Published Year</label>
+                <input type="number" class="form-control" th:field="*{publish_year}"
+                       th:classappend="${#fields.hasErrors('publish_year')} ? 'is-invalid' : ''" required>
+
+                <span th:if="${#fields.hasErrors('publish_year')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('publish_year')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="col-6 form-group">
+                <label class="form-label" th:for="*{isbn}">ISBN</label>
+                <input type="number" class="form-control" th:field="*{isbn}"
+                       th:classappend="${#fields.hasErrors('isbn')} ? 'is-invalid' : ''" required>
+
+                <span th:if="${#fields.hasErrors('isbn')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('isbn')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="form-label" th:for="*{cover_image}">Cover Image</label>
+                <div class="mb-2">
+                    <img th:src="${bookImage}" th:alt="${bookTitle}" class="img-thumbnail" width="200px" />
+                </div>
+                <input type="file" class="form-control" th:field="*{cover_image}"
+                       th:classappend="${#fields.hasErrors('cover_image')} ? 'is-invalid' : ''" accept="image/*">
+
+                <span th:if="${#fields.hasErrors('cover_image')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('cover_image')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="form-label" th:for="*{writer_ids}">Writer(s)</label>
+                <select multiple class="form-select" th:field="*{writer_ids}"
+                        th:classappend="${#fields.hasErrors('writer_ids')} ? 'is-invalid' : ''" required>
+                    <th:block th:each="writer: ${writers}">
+                        <option th:value="${writer.id}" th:text="${writer.name}"></option>
+                    </th:block>
+                </select>
+
+                <span th:if="${#fields.hasErrors('writer_ids')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('writer_ids')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="form-label" th:for="*{publisher_id}">Publisher</label>
+                <select class="form-select" th:field="*{publisher_id}"
+                        th:classappend="${#fields.hasErrors('publisher_id')} ? 'is-invalid' : ''" required>
+                    <th:block th:each="pub: ${publishers}">
+                        <option th:value="${pub.id}" th:text="${pub.name}"></option>
+                    </th:block>
+                </select>
+
+                <span th:if="${#fields.hasErrors('publisher_id')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('publisher_id')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="form-label" th:for="*{category_id}">Category</label>
+                <select class="form-select" th:field="*{category_id}"
+                        th:classappend="${#fields.hasErrors('category_id')} ? 'is-invalid' : ''" required>
+                    <th:block th:each="cat: ${categories}">
+                        <option th:value="${cat.id}" th:text="${cat.name}"></option>
+                    </th:block>
+                </select>
+
+                <span th:if="${#fields.hasErrors('category_id')}" class="invalid-feedback" role="alert">
+                    <strong th:each="error: ${#fields.errors('category_id')}" th:text="${error}"></strong>
+                </span>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Edit book</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>
