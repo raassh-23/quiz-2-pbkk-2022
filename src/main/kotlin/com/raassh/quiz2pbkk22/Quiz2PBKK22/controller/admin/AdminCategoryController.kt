@@ -5,7 +5,6 @@ import com.raassh.quiz2pbkk22.Quiz2PBKK22.model.Category
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.CategoryRepository
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.utils.Views
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -16,7 +15,7 @@ import javax.validation.Valid
 
 @Controller
 @RequestMapping("/admin/categories")
-class CategoryController {
+class AdminCategoryController {
     @Autowired
     private lateinit var categoryRepository: CategoryRepository
 

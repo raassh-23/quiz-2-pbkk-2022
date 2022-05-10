@@ -62,7 +62,7 @@
             <div class="form-group">
                 <label class="form-label" th:for="*{cover_image}">Cover Image</label>
                 <div class="mb-2">
-                    <img th:src="${bookImage}" th:alt="${bookTitle}" class="img-thumbnail" width="200px">
+                    <img th:src="${bookImage}" th:alt="${bookTitle}" class="img-thumbnail" width="200px" />
                 </div>
                 <input type="file" class="form-control" th:field="*{cover_image}"
                        th:classappend="${#fields.hasErrors('cover_image')} ? 'is-invalid' : ''" accept="image/*">

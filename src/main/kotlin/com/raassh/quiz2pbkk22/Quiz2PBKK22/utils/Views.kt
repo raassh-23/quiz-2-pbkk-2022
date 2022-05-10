@@ -21,4 +21,8 @@ object Views {
     const val ADMIN_BOOKS_INDEX = "admin/books/index"
     const val ADMIN_BOOKS_CREATE = "admin/books/create"
     const val ADMIN_BOOKS_EDIT = "admin/books/edit"
+
+    const val ADMIN_PUBLISHERS_INDEX = "admin/publishers/index"
+    const val ADMIN_PUBLISHERS_CREATE = "admin/publishers/create"
+    const val ADMIN_PUBLISHERS_EDIT = "admin/publishers/edit"
 }

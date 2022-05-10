@@ -18,7 +18,7 @@ class Book(
     val created_at: LocalDateTime = LocalDateTime.now(),
     var updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne
     @JoinColumn(name = "publisher_id")
     var publisher: Publisher? = null,
 
@@ -33,7 +33,7 @@ class Book(
     )
     var writers: MutableList<Writer> = mutableListOf(),
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne
     @JoinColumn(name = "category_id")
     var category: Category? = null,
 

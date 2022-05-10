@@ -13,6 +13,6 @@ class Category(
     val created_at: LocalDateTime = LocalDateTime.now(),
     var updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val books: List<Book>? = null
 )

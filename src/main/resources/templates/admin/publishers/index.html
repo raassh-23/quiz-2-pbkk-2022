@@ -1,0 +1,67 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: headFragment">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbarFragment"></div>
+
+<main class="py-4">
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <h1>Manage Publishers</h1>
+            <div>
+                <a th:href="@{~/admin/publishers/create}" class="btn btn-primary">Add Publisher</a>
+            </div>
+        </div>
+
+        <div th:if="${error != null}">
+            <p th:text="${'Error: ' + error}"/>
+        </div>
+
+        <div th:if="${param.keySet().contains('success')}" th:text="${param.success}" class="alert alert-success"/>
+
+        <div th:if="${param.keySet().contains('error')}" th:text="${param.error}" class="alert alert-danger"/>
+
+        <table class="table">
+            <thead>
+            <th>No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Book Count</th>
+            <th>Actions</th>
+            </thead>
+            <tbody>
+            <tr th:each="pub: ${publishers}">
+                <td th:text="${pubStat.count}"></td>
+                <td th:text="${pub.name}"></td>
+                <td th:text="${pub.email}"></td>
+                <td th:text="${pub.address}"></td>
+                <td th:text="${pub.phone}"></td>
+                <td th:text="${pub.books.size()}"></td>
+                <td>
+                    <a th:href="@{~/publishers/{id}(id=${pub.id})}" class="btn btn-primary">Details</a>
+                    <a th:href="@{~/admin/publishers/edit/{id}(id=${pub.id})}" class="btn btn-warning">Edit</a>
+                    <a href="#" class="btn btn-danger"
+                       th:onclick="'submitForm(event, &quot;delete-form-' + ${pub.id} + '&quot;)'">Delete</a>
+                    <form th:action="@{~/admin/publishers/delete/{id}(id=${pub.id})}"
+                          th:id="${'delete-form-'+pub.id}" class="d-none" method="POST">
+                    </form>
+                </td>
+            <tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script>
+    function submitForm(event, formId) {
+        event.preventDefault();
+
+        if (confirm('Are you sure?'))
+            document.getElementById(formId).submit();
+    }
+</script>
+</body>
+</html>

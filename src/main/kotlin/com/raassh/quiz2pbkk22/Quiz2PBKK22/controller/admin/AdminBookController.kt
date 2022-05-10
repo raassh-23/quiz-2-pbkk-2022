@@ -19,7 +19,7 @@ import javax.validation.Valid
 
 @Controller
 @RequestMapping("/admin/books")
-class BookController {
+class AdminBookController {
     @Autowired
     private lateinit var bookRepository: BookRepository
 
@@ -158,7 +158,7 @@ class BookController {
             addBookAttribute(book, model)
             addPubCatAndWriter(model)
         } catch (e: Exception) {
-            return "redirect:/admin/categories?error=Show edit form failed"
+            return "redirect:/admin/books?error=Show edit form failed"
         }
 
         return Views.ADMIN_BOOKS_EDIT
