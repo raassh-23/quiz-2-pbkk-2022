@@ -2,7 +2,7 @@ package com.raassh.quiz2pbkk22.Quiz2PBKK22.controller
 
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.form.RegisterForm
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.service.S3Service
-import com.raassh.quiz2pbkk22.Quiz2PBKK22.service.`interface`.IUserService
+import com.raassh.quiz2pbkk22.Quiz2PBKK22.service.`interface`.IAuthService
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.utils.Views
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -15,17 +15,13 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.multipart.MultipartFile
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import javax.servlet.http.HttpSession
 import javax.validation.Valid
 
 
 @Controller
 class AuthController {
     @Autowired
-    private lateinit var userService: IUserService
+    private lateinit var userService: IAuthService
 
     @Autowired
     private lateinit var s3Service: S3Service

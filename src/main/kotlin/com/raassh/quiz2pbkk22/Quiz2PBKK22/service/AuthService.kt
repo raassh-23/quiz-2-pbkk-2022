@@ -3,7 +3,7 @@ package com.raassh.quiz2pbkk22.Quiz2PBKK22.service
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.form.RegisterForm
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.model.User
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.UserRepository
-import com.raassh.quiz2pbkk22.Quiz2PBKK22.service.`interface`.IUserService
+import com.raassh.quiz2pbkk22.Quiz2PBKK22.service.`interface`.IAuthService
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.utils.md5
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class UserService : IUserService {
+class AuthService : IAuthService {
     @Autowired
     private lateinit var userRepository: UserRepository
 
