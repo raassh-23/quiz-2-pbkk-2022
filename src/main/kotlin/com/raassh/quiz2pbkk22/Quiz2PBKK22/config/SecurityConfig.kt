@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
@@ -35,7 +37,18 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/publishers",true).permitAll()
+                .formLogin().loginPage("/login")
+                .successHandler { _, response, authentication ->
+                    val userDetails = authentication.principal as User
+
+                    val redirect = if (userDetails.authorities.contains(SimpleGrantedAuthority("ADMIN"))) {
+                        "/admin"
+                    } else {
+                        "/books"
+                    }
+
+                    response.sendRedirect(redirect)
+                }.permitAll()
                 .and()
                 .logout()
                 .logoutRequestMatcher(AntPathRequestMatcher("/logout"))
