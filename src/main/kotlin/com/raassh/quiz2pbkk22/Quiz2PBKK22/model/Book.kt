@@ -54,7 +54,7 @@ class Book(
         return sum / reviews.size
     }
 
-    fun formattedRating(decimalPlaces: Int = 2) = String.format("%.${decimalPlaces}f", rating())
+    fun formattedRating(decimalPlaces: Int = 2) = String.format("%.${decimalPlaces}f", rating() ?: 0)
 
     fun writersName() = StringBuilder().apply {
         writers.forEachIndexed { i, writer ->

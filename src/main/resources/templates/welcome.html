@@ -38,7 +38,7 @@
 <main class="py-4">
     <div class="container">
         <div class="welcome">
-            <img th:src="@{'https://ets-pbkk-2022.herokuapp.com/images/homepage-background.png'}" alt="Welcome Pictures" height="610" width="100%">
+            <img src="https://ets-pbkk-2022.herokuapp.com/images/homepage-background.png" alt="Welcome Pictures" height="610" width="100%">
             <span class="textWelcome">
                 <h1 id="titleWelcome">Review<br>YourBooks</h1>
                 <h4 id="subtitleWelcome"><b>THE WORLD OF BOOKS REVIEW & RATING</b></h4>
@@ -48,6 +48,85 @@
                 <a th:href="@{/books}"><button class="btnChooseBooks btn text-light" style="background: #5e5343;">Choose Your Book</button></a>
             </span>
         </div>
+
+        <th:block th:if="${error == null}">
+            <h2 class="mt-4">Most Reviewed</h2>
+            <div class="row row-cols-2 row-cols-xs-2 row-cols-sm-4 row-cols-lg-6 g-3">
+                <div th:each="book: ${mostReviewedBooks}" class="col position-relative">
+                    <div class="card h-100">
+                        <img class="card-image-top" th:src="${book.cover_image}" th:alt="${book.title}"
+                             style="width:100%">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <a class="card-title fw-bold fs-5 stretched-link text-black text-decoration-none m-0"
+                                   th:href="@{/books/{id}(id=${book.id})}" th:text="${#strings.abbreviate(book.title, 30)}"></a>
+                                <div class="m-0">
+                                    <p th:text="${book.writersName()}"></p>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row">
+                                            <span style="color: Orange;">
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                <p class="ms-1 mb-0"
+                                   th:if="${book.rating != null}"
+                                   th:text="${book.formattedRating(2) + ' (' + book.reviews.size() + ' Reviews)'}"><</p>
+                                <p class="ms-1 mb-0" th:if="${book.rating == null}">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-4">Highest Rating</h2>
+            <div class="row row-cols-2 row-cols-xs-2 row-cols-sm-4 row-cols-lg-6 g-3">
+                <div th:each="book: ${highestRatingBooks}" class="col position-relative">
+                    <div class="card h-100">
+                        <img class="card-image-top" th:src="${book.cover_image}" th:alt="${book.title}"
+                             style="width:100%">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <a class="card-title fw-bold fs-5 stretched-link text-black text-decoration-none m-0"
+                                   th:href="@{/books/{id}(id=${book.id})}" th:text="${#strings.abbreviate(book.title, 30)}"></a>
+                                <div class="m-0">
+                                    <p th:text="${book.writersName()}"></p>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row">
+                                            <span style="color: Orange;">
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                <p class="ms-1 mb-0"
+                                   th:if="${book.rating != null}"
+                                   th:text="${book.formattedRating(2) + ' (' + book.reviews.size() + ' Reviews)'}"><</p>
+                                <p class="ms-1 mb-0" th:if="${book.rating == null}">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-4">Top Users</h2>
+            <div class="row row-cols-2 row-cols-xs-2 row-cols-sm-3 row-cols-lg-4 g-3">
+                <div th:each="user: ${topUsers}" class="col position-relative">
+                    <div class="card h-100">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img class="img-fluid rounded-start" th:src="${user.avatar_url}" th:alt="${user.name}"
+                                     style="width:100%">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <a class="card-title fw-bold fs-5 stretched-link text-black text-decoration-none m-0"
+                                       th:href="@{/users/{id}(id=${user.id})}" th:text="${#strings.abbreviate(user.name, 13)}"></a>
+                                    <p class="my-0" th:text="${user.reviews.size()+' Reviews'}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
     </div>
 </main>
 </body>
