@@ -4,7 +4,7 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 class CategoryForm (
-    @NotNull
-    @NotEmpty
+    @field:NotNull
+    @field:NotEmpty
     val name: String? = null
 )

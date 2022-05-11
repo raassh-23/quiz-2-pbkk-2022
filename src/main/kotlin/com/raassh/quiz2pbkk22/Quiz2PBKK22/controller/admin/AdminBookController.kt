@@ -64,16 +64,16 @@ class AdminBookController {
     fun store(
         @ModelAttribute @Valid bookForm: BookForm, bindingResult: BindingResult, model: Model
     ): String {
+        if (bookForm.cover_image?.isEmpty == true) {
+            bindingResult.rejectValue("cover_image", "cover_image.no.data", "must have image")
+        }
+
         if (bindingResult.hasErrors()) {
             addPubCatAndWriter(model)
             return Views.ADMIN_BOOKS_CREATE
         }
 
-        if (bookForm.cover_image?.isEmpty == true || bookForm.cover_image?.contentType?.startsWith("image/") == false) {
-            bindingResult.rejectValue("cover_image", "cover_image.wrong.type", "Cover must be image")
-            addPubCatAndWriter(model)
-            return Views.ADMIN_BOOKS_CREATE
-        }
+        println(bookForm)
 
         try {
             val category = categoryRepository.findById(bookForm.category_id!!).get()
@@ -93,6 +93,10 @@ class AdminBookController {
                 publisher = publisher,
                 writers = writers
             )
+
+            println(book.writers.map {
+                it.name
+            })
 
             bookRepository.save(book)
         } catch (e: Exception) {
@@ -178,13 +182,6 @@ class AdminBookController {
             val book = bookOptional.get()
 
             if (bindingResult.hasErrors()) {
-                addPubCatAndWriter(model)
-                addBookAttribute(book, model)
-                return Views.ADMIN_BOOKS_EDIT
-            }
-
-            if (bookForm.cover_image?.isEmpty == false && bookForm.cover_image.contentType?.startsWith("image/") == false) {
-                bindingResult.rejectValue("cover_image", "cover_image.wrong.type", "Cover must be image")
                 addPubCatAndWriter(model)
                 addBookAttribute(book, model)
                 return Views.ADMIN_BOOKS_EDIT

@@ -52,12 +52,11 @@ class AdminPublisherController {
     fun store(
         @ModelAttribute @Valid publisherForm: PublisherForm, bindingResult: BindingResult
     ): String {
-        if (bindingResult.hasErrors()) {
-            return Views.ADMIN_PUBLISHERS_CREATE
+        if (publisherForm.image?.isEmpty == true) {
+            bindingResult.rejectValue("image", "image.no.data", "must have image")
         }
 
-        if (publisherForm.image?.isEmpty == true || publisherForm.image?.contentType?.startsWith("image/") == false) {
-            bindingResult.rejectValue("image", "image.wrong.type", "Must be image")
+        if (bindingResult.hasErrors()) {
             return Views.ADMIN_PUBLISHERS_CREATE
         }
 
@@ -141,12 +140,6 @@ class AdminPublisherController {
             val publisher = publisherOptional.get()
 
             if (bindingResult.hasErrors()) {
-                addPublisherAttribute(publisher, model)
-                return Views.ADMIN_PUBLISHERS_EDIT
-            }
-
-            if (publisherForm.image?.isEmpty == false && publisherForm.image.contentType?.startsWith("image/") == false) {
-                bindingResult.rejectValue("image", "image.wrong.type", "Must be image")
                 addPublisherAttribute(publisher, model)
                 return Views.ADMIN_PUBLISHERS_EDIT
             }

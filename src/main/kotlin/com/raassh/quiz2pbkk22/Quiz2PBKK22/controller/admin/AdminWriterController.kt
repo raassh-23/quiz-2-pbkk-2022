@@ -56,12 +56,11 @@ class AdminWriterController {
     fun store(
         @ModelAttribute @Valid writerForm: WriterForm, bindingResult: BindingResult
     ): String {
-        if (bindingResult.hasErrors()) {
-            return Views.ADMIN_WRITERS_CREATE
+        if (writerForm.image?.isEmpty == true) {
+            bindingResult.rejectValue("image", "image.no.data", "must have image")
         }
 
-        if (writerForm.image?.isEmpty == true || writerForm.image?.contentType?.startsWith("image/") == false) {
-            bindingResult.rejectValue("image", "image.wrong.type", "Must be image")
+        if (bindingResult.hasErrors()) {
             return Views.ADMIN_WRITERS_CREATE
         }
 
@@ -160,12 +159,6 @@ class AdminWriterController {
             val writer = writerOptional.get()
 
             if (bindingResult.hasErrors()) {
-                addWriterAttribute(writer, model)
-                return Views.ADMIN_WRITERS_EDIT
-            }
-
-            if (writerForm.image?.isEmpty == false && writerForm.image.contentType?.startsWith("image/") == false) {
-                bindingResult.rejectValue("image", "image.wrong.type", "Must be image")
                 addWriterAttribute(writer, model)
                 return Views.ADMIN_WRITERS_EDIT
             }

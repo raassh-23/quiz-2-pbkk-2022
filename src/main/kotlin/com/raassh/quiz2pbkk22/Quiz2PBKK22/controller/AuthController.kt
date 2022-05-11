@@ -21,7 +21,7 @@ import javax.validation.Valid
 @Controller
 class AuthController {
     @Autowired
-    private lateinit var userService: IAuthService
+    private lateinit var authService: IAuthService
 
     @Autowired
     private lateinit var s3Service: S3Service
@@ -47,27 +47,15 @@ class AuthController {
             return Views.REGISTER
         }
 
-        // for some reason, @Size in RegisterForm is not working.
-        // so we need to validate password length here
-        if (registerForm.password!!.length < 8) {
-            bindingResult.rejectValue("password", "password.min.length", "Password need to be at least 8 characters")
-            return Views.REGISTER
-        }
-
-        var url: String? = null
-
-        if (registerForm.avatar?.isEmpty == false) {
-            if (registerForm.avatar.contentType?.startsWith("image/") == true) {
-                url = s3Service.save(registerForm.avatar) ?: throw java.lang.Exception("Failed to upload image")
-            } else {
-                bindingResult.rejectValue("avatar", "avatar.wrong.type", "Avatar must be image")
-                return Views.REGISTER
-            }
-        }
-
         try {
-            userService.registerNewUserAccount(registerForm, url)
-            autoLogin(registerForm.email!!, registerForm.password)
+            val url: String? = if (registerForm.avatar?.isEmpty == false) {
+                s3Service.save(registerForm.avatar) ?: throw java.lang.Exception("Failed to upload image")
+            } else {
+                null
+            }
+
+            authService.registerNewUserAccount(registerForm, url)
+            autoLogin(registerForm.email!!, registerForm.password!!)
         } catch (e: Exception) {
             bindingResult.reject("Exception", e.message ?: "Something went wrong")
             return Views.REGISTER
