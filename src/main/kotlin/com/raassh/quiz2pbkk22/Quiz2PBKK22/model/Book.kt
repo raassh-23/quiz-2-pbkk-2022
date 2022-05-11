@@ -1,5 +1,6 @@
 package com.raassh.quiz2pbkk22.Quiz2PBKK22.model
 
+import com.raassh.quiz2pbkk22.Quiz2PBKK22.form.ReviewForm
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -65,6 +66,19 @@ class Book(
             }
         }
     }.toString()
+
+    fun reviewsWithoutUser(userEmail: String?) : List<Review>? {
+        var newReviews = ArrayList<Review>()
+
+        if (reviews != null) {
+            for (review in reviews) {
+                if (review.user?.email == userEmail) continue
+                newReviews.add(review)
+            }
+        }
+
+        return if (newReviews.isEmpty()) null else newReviews as List<Review>
+    }
 
     fun findReviewByUserId(id: Long) : Review? {
         var user_review: Review? = null

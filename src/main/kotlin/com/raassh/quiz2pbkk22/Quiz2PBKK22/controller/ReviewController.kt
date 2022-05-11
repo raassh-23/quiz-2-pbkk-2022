@@ -60,10 +60,11 @@ class ReviewController {
         model: Model
     ): String {
         val reviewOptional = reviewRepository.findById(id)
-
         try {
+
+
             if (reviewOptional.isEmpty) {
-                return "redirect:/book/index/error=Deleting review failed, ID not found"
+                return "redirect:/book/index?error=Deleting review failed, ID not found"
             }
 
             reviewRepository.deleteById(id)
@@ -74,39 +75,10 @@ class ReviewController {
         return "redirect:/book/detail/${reviewOptional.get().book!!.id}?success=Deleting review success"
     }
 
-    @GetMapping("/edit/{id}")
-    fun edit(@PathVariable id: Long, model: Model): String {
-        try {
-            val reviewOptional = reviewRepository.findById(id)
-
-            if (reviewOptional.isEmpty) {
-                return "redirect:/admin/categories?error=Show edit form failed, id was not found"
-            }
-
-            val review = reviewOptional.get()
-
-            model.addAttribute("reviewForm", ReviewForm(
-                rating = review.rating,
-                review = review.review,
-                user_id = review.user?.id,
-                book_id = review.book?.id
-            ))
-            model.addAttribute("reviewId", review.id)
-        } catch (e: Exception) {
-            return "redirect:/admin/categories?error=Show edit form failed"
-        }
-
-        return Views.ADMIN_CATEGORIES_EDIT
-    }
-
     @PostMapping("/update/{id}")
     fun update(
-        @PathVariable id: Long, @ModelAttribute @Valid reviewForm: ReviewForm, bindingResult: BindingResult
+        @PathVariable id: Long, @ModelAttribute @Valid reviewForm: ReviewForm, bindingResult: BindingResult, model: Model
     ): String {
-        if (bindingResult.hasErrors()) {
-            return Views.BOOK_DETAIL
-        }
-
         try {
             val reviewOptional = reviewRepository.findById(id)
 
@@ -114,9 +86,16 @@ class ReviewController {
                 return "redirect:/book/detail/${reviewForm.book_id}?error=Updating review failed, ID not found"
             }
 
-            val review = reviewOptional.get().apply {
-                rating = reviewForm.rating as Int
-                review = reviewForm.review as String
+            val review = reviewOptional.get()
+
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("book", review.book)
+                return Views.BOOK_DETAIL
+            }
+
+            review.apply {
+                this.rating = reviewForm.rating as Int
+                this.review = reviewForm.review as String
                 updated_at = LocalDateTime.now()
             }
 
@@ -125,6 +104,6 @@ class ReviewController {
             return "redirect:/book/detail/${reviewForm.book_id}?error=Adding review failed"
         }
 
-        return "redirect:/book/detail/${reviewForm.book_id}?error=Adding review failed"
+        return "redirect:/book/detail/${reviewForm.book_id}?success=Adding review success"
     }
 }

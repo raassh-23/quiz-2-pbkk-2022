@@ -1,5 +1,6 @@
 package com.raassh.quiz2pbkk22.Quiz2PBKK22.model
 
+import com.raassh.quiz2pbkk22.Quiz2PBKK22.form.ReviewForm
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -22,5 +23,10 @@ class Review(
     @JoinColumn(name="user_id")
     val user: User? = null
 ) {
-    fun formattedRating(decimalPlaces: Int = 2) = String.format("%.${decimalPlaces}f", rating)
+    fun userReviewForm() = ReviewForm(
+            rating = rating,
+            review = review,
+            book_id = book!!.id,
+            user_id = user!!.id
+        )
 }
