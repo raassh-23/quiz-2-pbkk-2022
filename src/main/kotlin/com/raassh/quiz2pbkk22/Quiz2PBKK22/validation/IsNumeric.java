@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = IsNumericValidator.class)
 @Documented
 public @interface IsNumeric {
-    String message() default "Must be numeric";
+    String message() default "must be numeric";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

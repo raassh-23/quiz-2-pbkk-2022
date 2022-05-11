@@ -49,7 +49,7 @@ class AdminCategoryController {
 
         try {
             val category = Category(
-                name = categoryForm.name as String
+                name = categoryForm.name!!
             )
 
             categoryRepository.save(category)
@@ -104,12 +104,8 @@ class AdminCategoryController {
 
     @PostMapping("/update/{id}")
     fun update(
-        @PathVariable id: Long, @ModelAttribute @Valid categoryForm: CategoryForm, bindingResult: BindingResult
+        @PathVariable id: Long, @ModelAttribute @Valid categoryForm: CategoryForm, bindingResult: BindingResult, model: Model
     ): String {
-        if (bindingResult.hasErrors()) {
-            return Views.ADMIN_CATEGORIES_EDIT
-        }
-
         try {
             val categoryOptional = categoryRepository.findById(id)
 
@@ -117,8 +113,15 @@ class AdminCategoryController {
                 return "redirect:/admin/categories/edit/$id?error=Show edit form failed, id was not found"
             }
 
-            val category = categoryOptional.get().apply {
-                name = categoryForm.name as String
+            val category = categoryOptional.get()
+
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("categoryId", category.id)
+                return Views.ADMIN_CATEGORIES_EDIT
+            }
+
+            category.apply {
+                name = categoryForm.name!!
                 updated_at = LocalDateTime.now()
             }
 

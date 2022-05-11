@@ -11,10 +11,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({TYPE, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = IsImageValidator.class)
 @Documented
-public @interface ValidEmail {
-    String message() default "invalid email";
+public @interface IsImage {
+    String message() default "must be image";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

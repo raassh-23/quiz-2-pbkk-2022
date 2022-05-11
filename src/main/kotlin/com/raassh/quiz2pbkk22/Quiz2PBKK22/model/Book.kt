@@ -22,14 +22,22 @@ class Book(
     @JoinColumn(name = "publisher_id")
     var publisher: Publisher? = null,
 
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
+    @JoinTable(
+        name = "book_writer",
+        joinColumns = [JoinColumn(name = "book_id", foreignKey = ForeignKey(name = "book_writer_book_id_foreign"))],
+        inverseJoinColumns = [JoinColumn(
+            name = "writer_id",
+            foreignKey = ForeignKey(name = "book_writer_writer_id_foreign")
+        )]
+    )
     var writers: MutableList<Writer> = mutableListOf(),
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     var category: Category? = null,
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val reviews: List<Review>? = null
 ) {
     fun rating(): Float? {

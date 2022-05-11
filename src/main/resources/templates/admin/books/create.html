@@ -85,6 +85,7 @@
                 <label class="form-label" th:for="*{publisher_id}">Publisher</label>
                 <select class="form-select" th:field="*{publisher_id}"
                         th:classappend="${#fields.hasErrors('publisher_id')} ? 'is-invalid' : ''" required>
+                    <option value="0">Select a publisher</option>
                     <th:block th:each="pub: ${publishers}">
                         <option th:value="${pub.id}" th:text="${pub.name}"></option>
                     </th:block>
@@ -98,6 +99,7 @@
                 <label class="form-label" th:for="*{category_id}">Category</label>
                 <select class="form-select" th:field="*{category_id}"
                         th:classappend="${#fields.hasErrors('category_id')} ? 'is-invalid' : ''" required>
+                    <option value="0">Select a category</option>
                     <th:block th:each="cat: ${categories}">
                         <option th:value="${cat.id}" th:text="${cat.name}"></option>
                     </th:block>

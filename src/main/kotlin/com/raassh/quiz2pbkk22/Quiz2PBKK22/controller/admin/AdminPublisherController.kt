@@ -52,12 +52,11 @@ class AdminPublisherController {
     fun store(
         @ModelAttribute @Valid publisherForm: PublisherForm, bindingResult: BindingResult
     ): String {
-        if (bindingResult.hasErrors()) {
-            return Views.ADMIN_PUBLISHERS_CREATE
+        if (publisherForm.image?.isEmpty == true) {
+            bindingResult.rejectValue("image", "image.no.data", "must have image")
         }
 
-        if (publisherForm.image?.isEmpty == true || publisherForm.image?.contentType?.startsWith("image/") == false) {
-            bindingResult.rejectValue("image", "cover_image.wrong.type", "Must be image")
+        if (bindingResult.hasErrors()) {
             return Views.ADMIN_PUBLISHERS_CREATE
         }
 
@@ -135,18 +134,12 @@ class AdminPublisherController {
             val publisherOptional = publisherRepository.findById(id)
 
             if (publisherOptional.isEmpty) {
-                return "redirect:/admin/books?error=Show edit form failed, id was not found"
+                return "redirect:/admin/publishers?error=Show edit form failed, id was not found"
             }
 
             val publisher = publisherOptional.get()
 
             if (bindingResult.hasErrors()) {
-                addPublisherAttribute(publisher, model)
-                return Views.ADMIN_PUBLISHERS_EDIT
-            }
-
-            if (publisherForm.image?.isEmpty == false && publisherForm.image.contentType?.startsWith("image/") == false) {
-                bindingResult.rejectValue("image", "cover_image.wrong.type", "Must be image")
                 addPublisherAttribute(publisher, model)
                 return Views.ADMIN_PUBLISHERS_EDIT
             }

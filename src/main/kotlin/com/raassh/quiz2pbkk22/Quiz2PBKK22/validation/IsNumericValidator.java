@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
 public class IsNumericValidator
         implements ConstraintValidator<IsNumeric, String> {
 
-    private Pattern pattern;
-    private Matcher matcher;
     private static final String NUMERIC_PATTERN = "-?[0-9]+(\\.[0-9]+)?";
 
     @Override
@@ -18,12 +16,8 @@ public class IsNumericValidator
 
     @Override
     public boolean isValid(String data, ConstraintValidatorContext context) {
-        return (validate(data));
-    }
-
-    private boolean validate(String data) {
-        pattern = Pattern.compile(NUMERIC_PATTERN);
-        matcher = pattern.matcher(data);
-        return matcher.matches();
+        Pattern pattern = Pattern.compile(NUMERIC_PATTERN);
+        Matcher matcher = pattern.matcher(data);
+        return data.isEmpty() || matcher.matches();
     }
 }

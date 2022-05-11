@@ -24,7 +24,7 @@
                                     <div class="card-body d-flex flex-column justify-content-between">
                                         <a class="card-title fw-bold fs-5 stretched-link text-black text-decoration-none m-0"
                                            th:href="@{/users/{id}(id=${user.id})}" th:text="${#strings.abbreviate(user.name, 13)}"></a>
-                                        <p class="my-0" th:text="${user.reviews.size()+'Reviews'}"></p>
+                                        <p class="my-0" th:text="${user.reviews.size()+' Reviews'}"></p>
                                     </div>
                                 </div>
                             </div>
