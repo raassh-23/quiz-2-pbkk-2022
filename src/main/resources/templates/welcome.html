@@ -4,10 +4,51 @@
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbarFragment"></div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+    .welcome {
+        position: relative;
+    }
+    .textWelcome {
+        position: absolute;
+        right: 20px;
+        top: 150px;
+        width: 600px;
+    }
+    #titleWelcome {
+        font-family: 'Rubik', sans-serif;
+        font-size: 84px;
+        color: #5e5343;
+        line-height: 80px;
+    }
 
+    #subtitleWelcome {
+        color: #5e5343;
+        font-size: 18px;
+        line-height: 50px;
+    }
+
+    #contentWelcome {
+        width: 600px;
+        right: -200px;
+    }
+
+
+</style>
 <main class="py-4">
-    <p th:text="'Hello, ' + ${name} + '!'"/>
-    <a th:text="publishers" th:href="@{~/publishers}" />
+    <div class="container">
+        <div class="welcome">
+            <img th:src="@{'https://ets-pbkk-2022.herokuapp.com/images/homepage-background.png'}" alt="Welcome Pictures" height="610" width="100%">
+            <span class="textWelcome">
+                <h1 id="titleWelcome">Review<br>YourBooks</h1>
+                <h4 id="subtitleWelcome"><b>THE WORLD OF BOOKS REVIEW & RATING</b></h4>
+                <p id="contentWelcome"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam ea deleniti nemo ipsam dolor.
+                    Tenetur, aliquid optio maxime, ipsum id nostrum incidunt, iusto perspiciatis corporis
+                    facere qui culpa nesciunt adipisci?</p>
+                <a th:href="@{/books}"><button class="btnChooseBooks btn text-light" style="background: #5e5343;">Choose Your Book</button></a>
+            </span>
+        </div>
+    </div>
 </main>
 </body>
 </html>
