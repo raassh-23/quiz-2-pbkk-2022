@@ -1,5 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <body>
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" th:fragment="navbarFragment">
     <div class="container">
@@ -38,7 +38,7 @@
 
                 <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${displayName}">
+                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${LoggedInUser.name}">
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

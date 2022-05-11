@@ -1,0 +1,191 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: headFragment">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbarFragment"></div>
+
+<main class="py-4">
+    <div class="container">
+        <div th:if="${error != null}">
+            <p th:text="${'Error: ' + error}"/>
+        </div>
+
+        <div class="d-flex flex-row" th:if="${error == null && book != null}">
+            <img th:src="${book.cover_image}" th:alt="${book.title}" width="250px" height="330px">
+            <div class="d-flex flex-column ms-3 mt-1">
+                <h1 class="fw-bolder" th:text=""${book.title}></h1>
+                <h5>by :
+                    <a th:each="writer, iterStat : ${book.writers}"
+                       th:href="@{/writers/{id}(id=${writer.id})}"
+                       th:text="${iterStat.last} ? ${writer.name} : ${writer.name + ', '}"></a>
+                </h5>
+                <h5 th:text="${book.publisher.name}"></h5>
+                <div class="d-flex flex-row">
+                    <h6>Year: <b th:text="${book.publish_year}"></b></h6>
+                    <h6 class="ms-3">Edition: <b th:text="${book.edition}"></b></h6>
+                    <h6 class="ms-3">ISBN: <b th:text="${book.isbn}"></b></h6>
+                </div>
+                <p class="mb-1">Category: <b th:text="${book.category}"></b></p>
+                <p class="mb-1">Average Rating: <b th:text="${book.rating == null} ? ${book.formattedRating(2)} : 'No Review'"></b></b></p>
+                <p class="mt-2" th:text="${book.synopsis}"></p>
+            </div>
+        </div>
+
+<!--        <div sec:authorize="isAuthenticated()" th:with="user_review = ${book.findReviewByUserId(LoggedInUser.id)}" class="container mt-4 border border-2 rounded p-3">-->
+<!--            <div th:if="${user_review != null}" class="view-review">-->
+<!--                <h4 class="fw-bold">Your review</h4>-->
+<!--                <div class="d-flex flex-row">-->
+<!--                        <span style="color: Orange;">-->
+<!--                            <i class="fas fa-star fa-large"></i>-->
+<!--                        </span>-->
+<!--                    <p class="ms-1 mb-0" th:text="${user_review.formattedRating(2)}"></p>-->
+<!--                </div>-->
+<!--                <p class="my-0" th:text="${user_review.review}"></p>-->
+
+<!--                <div class="d-flex flex-row mt-3">-->
+<!--                    <form th:action="@{~/review/delete/{id}(id=${user_review.id})}" method="POST"-->
+<!--                          onsubmit="return confirm('Are you sure?');">-->
+<!--                        <button type="submit" class="btn btn-danger">Delete</button>-->
+<!--                    </form>-->
+<!--                    <button type="submit" class="btn btn-primary ms-2"  href="#"-->
+<!--                            onclick="-->
+<!--                            $('.edit-review').slideToggle(-->
+<!--                                function(){-->
+<!--                                    $('#more').html($('.edit-review').is(':visible'));-->
+<!--                                }-->
+<!--                            );-->
+<!--                            $('.view-review').slideToggle(-->
+<!--                                function(){-->
+<!--                                    $('#more').html($('.view-review').is(':visible'));-->
+<!--                                }-->
+<!--                            );">Edit</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="edit-review" style="display: none">-->
+<!--                <h4 class="fw-bold">Edit your review</h4>-->
+<!--                <form method='POST'-->
+<!--                      th:action="@{~/review/edit/{id}(id=${user_review.id})}"-->
+<!--                      th:object="${reviewForm}">-->
+<!--                    <div class="form-group">-->
+<!--                        <label th:for="*{rating}">Rating</label>-->
+<!--                        <input type="number" class="form-control" aria-describedby="ratingHelp"-->
+<!--                               placeholder="Enter rating" th:field="*{rating}" th:value="${user_review.rating}">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label th:for="*{review}">Review</label>-->
+<!--                        <textarea class="form-control" th:field="*{review}" rows="3" required th:text="${user_review.review}"></textarea>-->
+<!--                    </div>-->
+<!--                    <div class="d-flex flex-row mt-3">-->
+<!--                        <a class="btn btn-light"-->
+<!--                           onclick="-->
+<!--                                $('.edit-review').slideToggle(-->
+<!--                                    function(){-->
+<!--                                        $('#more').html($('.edit-review').is(':visible'));-->
+<!--                                    }-->
+<!--                                );-->
+<!--                                $('.view-review').slideToggle(-->
+<!--                                    function(){-->
+<!--                                        $('#more').html($('.view-review').is(':visible'));-->
+<!--                                    }-->
+<!--                                );">Cancel</a>-->
+<!--                        <button type="submit" class="btn btn-primary ms-2">Edit Review</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+
+<!--            <div th:if="${user_review == null}" class="no-review">-->
+<!--                <h5>You haven't reviewed this book yet.</h5>-->
+<!--                <button class="btn btn-primary"-->
+<!--                        onclick="-->
+<!--                    $('.add-review').slideToggle(-->
+<!--                        function(){-->
+<!--                            $('#more').html($('.add-review').is(':visible'));-->
+<!--                        }-->
+<!--                    );-->
+<!--                    $('.no-review').slideToggle(-->
+<!--                        function(){-->
+<!--                            $('#more').html($('.no-review').is(':visible'));-->
+<!--                        }-->
+<!--                    );">Add review</button>-->
+<!--            </div>-->
+
+<!--            <div class="add-review" style="display: none">-->
+<!--                <h4 class="fw-bold">Add your review</h4>-->
+<!--                <form method='POST' th:action="@{~/review/store}" th:object="${reviewForm}">-->
+<!--                    <input type="hidden" th:value="${LoggedInUser.id}" th:field="*{user_id}" name="user_id">-->
+<!--                    <input type="hidden" th:value="${book.id}" th:field="*{book_id}" name="book_id">-->
+<!--                    <div class="form-group">-->
+<!--                        <label th:for="*{rating}">Rating</label>-->
+<!--                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="ratingHelp"-->
+<!--                               placeholder="Enter rating" name="rating" th:field="*{rating}">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label th:for="*{review}">Review</label>-->
+<!--                        <textarea class="form-control" th:field="*{review}" id="reviewInputID" rows="3" name="review" placeholder="Enter review" required></textarea>-->
+<!--                    </div>-->
+<!--                    <div class="d-flex flex-row mt-3">-->
+<!--                        <a class="btn btn-light"-->
+<!--                           onclick="-->
+<!--                                $('.add-review').slideToggle(-->
+<!--                                    function(){-->
+<!--                                        $('#more').html($('.add-review').is(':visible'));-->
+<!--                                    }-->
+<!--                                );-->
+<!--                                $('.no-review').slideToggle(-->
+<!--                                    function(){-->
+<!--                                        $('#more').html($('.no-review').is(':visible'));-->
+<!--                                    }-->
+<!--                                );">Cancel</a>-->
+<!--                        <button type="submit" class="btn btn-primary ms-2">Send Review</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="alert alert-success">-->
+<!--            {{ session('success') }}-->
+<!--        </div>-->
+<!--        @endif-->
+
+<!--        @if (session('error'))-->
+<!--        <div class="alert alert-danger">-->
+<!--            {{ session('error') }}-->
+<!--        </div>-->
+<!--        @endif-->
+
+<!--        @if ($errors->any())-->
+<!--        <div class="alert alert-danger">-->
+<!--            <ul>-->
+<!--                @foreach ($errors->all() as $error)-->
+<!--                <li>{{ $error }}</li>-->
+<!--                @endforeach-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--        @endif-->
+
+<!--        <h2 class="mt-4">Reviews ({{ count($book->reviews) }})</h2>-->
+<!--        @if (($book->reviews->count() > 1 && $user_review != NULL) || ($book->reviews->count() > 0 && $user_review == NULL ))-->
+<!--        @foreach ($book->reviews as $review)-->
+<!--        @if (!Auth::check() || $review->user->id != Auth::user()->id)-->
+<!--        <div class="card mb-3">-->
+<!--            <div class="card-body">-->
+<!--                <a class="fw-bold fs-4" href="{{ route('users.show', ['user' => $review->user->id]) }}">{{ $review->user->name }}</a>-->
+<!--                <div class="d-flex flex-row">-->
+<!--                                <span style="color: Orange;">-->
+<!--                                    <i class="fas fa-star fa-large"></i>-->
+<!--                                </span>-->
+<!--                    <p class="ms-1 mb-0">{{ round($review->rating, 2) ?: '-'}}</p>-->
+<!--                </div>-->
+<!--                <p  class="my-0">{{ $review->review }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        @endif-->
+<!--        @endforeach-->
+<!--        @else-->
+<!--        <h5>No other reviews.</h5>-->
+<!--        @endif-->
+    </div>
+</main>
+</body>
+</html>

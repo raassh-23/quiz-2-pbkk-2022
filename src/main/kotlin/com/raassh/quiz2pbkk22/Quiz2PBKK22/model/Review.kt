@@ -9,10 +9,10 @@ class Review(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-    val rating: Int = 0,
-    val review: String = "",
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-    val updatedAt: LocalDateTime = LocalDateTime.now(),
+    var rating: Int = 0,
+    var review: String = "",
+    val created_at: LocalDateTime = LocalDateTime.now(),
+    var updated_at: LocalDateTime = LocalDateTime.now(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name="book_id")
@@ -21,4 +21,6 @@ class Review(
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name="user_id")
     val user: User? = null
-)
+) {
+    fun formattedRating(decimalPlaces: Int = 2) = String.format("%.${decimalPlaces}f", rating)
+}

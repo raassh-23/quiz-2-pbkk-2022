@@ -24,6 +24,6 @@ class LoggedInUserControllerAdvice  {
 
         val user = userRepository.findByEmail((principal as User).username) ?: return
 
-        model.addAttribute("displayName", user.name)
+        model.addAttribute("LoggedInUser", user)
     }
 }

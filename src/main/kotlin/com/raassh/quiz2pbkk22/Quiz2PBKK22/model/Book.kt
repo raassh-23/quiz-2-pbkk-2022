@@ -57,4 +57,18 @@ class Book(
             }
         }
     }.toString()
+
+    fun findReviewByUserId(id: Long) : Review? {
+        var user_review: Review? = null
+
+        if (reviews != null) {
+            for (review in reviews) {
+                if (review.user?.id == id) {
+                    user_review = review
+                }
+            }
+        }
+
+        return user_review
+    }
 }
