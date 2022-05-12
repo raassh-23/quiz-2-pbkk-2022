@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <label th:for="*{rating}">Rating</label>
                             <input type="number" class="form-control" aria-describedby="ratingHelp" th:field="*{rating}"
-                                   placeholder="Enter rating">
+                                   placeholder="Enter rating" min="1" max="10" step="1">
                         </div>
                         <div class="form-group">
                             <label th:for="*{review}">Review</label>
@@ -127,7 +127,7 @@
                         <div class="form-group">
                             <label th:for="*{rating}">Rating</label>
                             <input type="number" class="form-control" aria-describedby="ratingHelp"
-                                   placeholder="Enter rating" name="rating" th:field="*{rating}">
+                                   placeholder="Enter rating" name="rating" th:field="*{rating}" min="1" max="10" step="1">
                         </div>
                         <div class="form-group">
                             <label th:for="*{review}">Review</label>
@@ -152,7 +152,6 @@
                 </div>
             </div>
         </div>
-
 
         <h2 class="mt-4" th:text="${'Reviews (' + book.reviews.size() + ')'}"></h2>
         <div class="container p-0 m-0" th:with="userEmail = ${#authorization.expression('isAuthenticated()')} ? ${#authentication.getName()} : null">

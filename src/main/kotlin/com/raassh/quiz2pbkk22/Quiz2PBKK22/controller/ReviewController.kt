@@ -48,10 +48,10 @@ class ReviewController {
 
             reviewRepository.save(review)
         } catch (e: Exception) {
-            return "redirect:/book/detail/${book.id}?error=Adding review failed"
+            return "redirect:/books/${book.id}?error=Adding review failed"
         }
 
-        return "redirect:/book/detail/${book.id}?success=Adding review success"
+        return "redirect:/books/${book.id}?success=Adding review success"
     }
 
     @PostMapping("/delete/{id}")
@@ -62,17 +62,16 @@ class ReviewController {
         val reviewOptional = reviewRepository.findById(id)
         try {
 
-
             if (reviewOptional.isEmpty) {
                 return "redirect:/book/index?error=Deleting review failed, ID not found"
             }
 
             reviewRepository.deleteById(id)
         } catch (e: Exception) {
-            return "redirect:/book/detail/${reviewOptional.get().book!!.id}?error=Deleting review failed"
+            return "redirect:/books/${reviewOptional.get().book!!.id}?error=Deleting review failed"
         }
 
-        return "redirect:/book/detail/${reviewOptional.get().book!!.id}?success=Deleting review success"
+        return "redirect:/books/${reviewOptional.get().book!!.id}?success=Deleting review success"
     }
 
     @PostMapping("/update/{id}")
