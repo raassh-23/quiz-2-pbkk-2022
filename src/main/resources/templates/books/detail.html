@@ -7,6 +7,11 @@
 
 <main class="py-4">
     <div class="container">
+
+        <div th:if="${param.keySet().contains('success')}" th:text="${param.success}" class="alert alert-success"/>
+
+        <div th:if="${param.keySet().contains('error')}" th:text="${param.error}" class="alert alert-danger"/>
+
         <div th:if="${error != null}">
             <p th:text="${'Error: ' + error}"/>
         </div>
@@ -66,16 +71,18 @@
                 <div th:if="${user_review != null}" class="edit-review" style="display: none">
                     <h4 class="fw-bold" >Edit your review</h4>
                     <form method='POST'
-                          th:action="@{~/review/edit/{id}(id=${user_review.id})}"
+                          th:action="@{~/review/update/{id}(id=${user_review.id})}"
                           th:object="${reviewForm}">
+                        <input type="hidden" th:field="*{user_id}" name="user_id">
+                        <input type="hidden" th:field="*{book_id}" name="book_id">
                         <div class="form-group">
-                            <label for="rating">Rating</label>
+                            <label th:for="*{rating}">Rating</label>
                             <input type="number" class="form-control" aria-describedby="ratingHelp" th:field="*{rating}"
-                                   placeholder="Enter rating" id="rating" name="rating" th:value="${user_review.rating}">
+                                   placeholder="Enter rating">
                         </div>
                         <div class="form-group">
-                            <label for="review">Review</label>
-                            <textarea class="form-control" id="review" name="review" th:text="${user_review.review}"
+                            <label th:for="*{review}">Review</label>
+                            <textarea class="form-control"
                                       rows="3" th:field="*{review}" required></textarea>
                         </div>
                         <div class="d-flex flex-row mt-3">
@@ -112,14 +119,14 @@
                     );">Add review</button>
                 </div>
 
-                <div class="add-review" style="display: none">
+                <div th:if="${user_review == null}" class="add-review" style="display: none">
                     <h4 class="fw-bold">Add your review</h4>
                     <form method='POST' th:action="@{~/review/store}" th:object="${reviewForm}">
-                        <input type="hidden" th:value="${LoggedInUser.id}" th:field="*{user_id}" name="user_id">
-                        <input type="hidden" th:value="${book.id}" th:field="*{book_id}" name="book_id">
+                        <input type="hidden" th:field="*{user_id}" name="user_id">
+                        <input type="hidden" th:field="*{book_id}" name="book_id">
                         <div class="form-group">
                             <label th:for="*{rating}">Rating</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="ratingHelp"
+                            <input type="number" class="form-control" aria-describedby="ratingHelp"
                                    placeholder="Enter rating" name="rating" th:field="*{rating}">
                         </div>
                         <div class="form-group">

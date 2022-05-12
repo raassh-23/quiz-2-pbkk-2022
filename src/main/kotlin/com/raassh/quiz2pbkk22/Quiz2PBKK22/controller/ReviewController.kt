@@ -83,7 +83,7 @@ class ReviewController {
             val reviewOptional = reviewRepository.findById(id)
 
             if (reviewOptional.isEmpty) {
-                return "redirect:/book/detail/${reviewForm.book_id}?error=Updating review failed, ID not found"
+                return "redirect:/books/${reviewForm.book_id}?error=Updating review failed, ID not found"
             }
 
             val review = reviewOptional.get()
@@ -101,9 +101,9 @@ class ReviewController {
 
             reviewRepository.save(review)
         } catch (e: Exception) {
-            return "redirect:/book/detail/${reviewForm.book_id}?error=Adding review failed"
+            return "redirect:/books/${reviewForm.book_id}?error=Editing review failed"
         }
 
-        return "redirect:/book/detail/${reviewForm.book_id}?success=Adding review success"
+        return "redirect:/books/${reviewForm.book_id}?success=Editing review success"
     }
 }
