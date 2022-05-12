@@ -3,6 +3,7 @@ package com.raassh.quiz2pbkk22.Quiz2PBKK22.controller
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.form.ReviewForm
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.model.Review
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.BookRepository
+import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.CategoryRepository
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.UserRepository
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.repository.ReviewRepository
 import com.raassh.quiz2pbkk22.Quiz2PBKK22.utils.Views
@@ -28,19 +29,32 @@ class BookController {
     @Autowired
     private lateinit var reviewRepository: ReviewRepository
 
+    @Autowired
+    private lateinit var categoryRepository: CategoryRepository
+
     @GetMapping
     fun getAll(
         @RequestParam(name="search", required = false, defaultValue = "") search: String,
+        @RequestParam(name="category", required = false, defaultValue = "") category: String,
         model: Model
     ): String {
         try {
-            val books = if (search.isEmpty()){
+            val categories = categoryRepository.findAll()
+
+            var books = if (search.isEmpty()){
                 bookRepository.findAll()
             } else {
                 bookRepository.findByTitleContainingIgnoreCase(search)
             }
 
+            if (category.isNotEmpty()) {
+                books = books.filter {
+                    it.category?.id == category.toLong()
+                }
+            }
+
             model.addAttribute("books", books)
+            model.addAttribute("categories", categories)
         } catch (e: Exception){
             model.addAttribute("error", e.message)
         }

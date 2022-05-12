@@ -15,11 +15,11 @@ class Review(
     val created_at: LocalDateTime = LocalDateTime.now(),
     var updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="book_id")
     val book: Book? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="user_id")
     val user: User? = null
 )

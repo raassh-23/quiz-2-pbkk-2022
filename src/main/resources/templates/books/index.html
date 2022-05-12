@@ -53,17 +53,15 @@
                         </div>
                     </form>
                 </div>
-<!--                <div class="row-md-2">-->
-<!--                    <h2>Categories</h2>-->
-<!--                    <ul class="list-group">-->
-<!--                        @foreach ($categories as $category)-->
-<!--                        <li class="list-group-item list-group-item-action">-->
-<!--                            <a class="stretched-link text-black text-decoration-none" href="{{ route('books.index', ['category' => $category->id]) }}">{{ $category->name }}</a>-->
-<!--                            <span class="badge rounded-pill bg-light text-dark float-end">{{ count($category->books) }} Books</span>-->
-<!--                        </li>-->
-<!--                        @endforeach-->
-<!--                    </ul>-->
-<!--                </div>-->
+                <div class="row-md-2">
+                    <h2>Categories</h2>
+                    <ul class="list-group">
+                        <li th:each="cat: ${categories}" class="list-group-item list-group-item-action">
+                            <a class="stretched-link text-black text-decoration-none" th:href="@{~/books?category={catId}(catId=${cat.id})}" th:text="${cat.name}"></a>
+                            <span class="badge rounded-pill bg-light text-dark float-end" th:text="${cat.books.size() + ' Books'}"></span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
