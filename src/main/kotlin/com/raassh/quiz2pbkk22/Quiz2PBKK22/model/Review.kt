@@ -15,18 +15,11 @@ class Review(
     val created_at: LocalDateTime = LocalDateTime.now(),
     var updated_at: LocalDateTime = LocalDateTime.now(),
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="book_id")
     val book: Book? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     val user: User? = null
-) {
-    fun userReviewForm() = ReviewForm(
-            rating = rating,
-            review = review,
-            book_id = book!!.id,
-            user_id = user!!.id
-        )
-}
+)
